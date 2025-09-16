@@ -116,7 +116,7 @@ We will poll your endpoint for new or updated records since our last request. Yo
 
 | Parameter | Type    | Required | Description                                                                                                    |
 | :-------- | :------ | :------- | :------------------------------------------------------------------------------------------------------------- |
-| `id_gt`  | Integer | Yes      | "Greater Than". Returns all orders from your platform with an ID greater than the specified value.          |
+| `id_gt`   | Integer | Yes      | "Greater Than". Returns all orders from your platform with an ID greater than the specified value.          |
 | `limit`   | Integer | Yes      | The maximum number of records to return. The value must be greater than 0 and less than or equal to `1000`. |
 
 * *Example Request*: `GET https://api.yourshop.com/torob/v1/orders?id_gt=10521&limit=100`
@@ -134,20 +134,20 @@ The response must be a JSON object with the `Content-Type` header set to `applic
     {
       "id": 10522,
       "click_id": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
-      "order_value": 5000000,
-      "postage_fee": 900000,
+      "order_value": 500000,
+      "shipping_amount": 90000,
       "status": "completed",
       "purchase_timestamp": "2025-09-21T10:00:00Z",
       "last_updated_timestamp": "2025-09-21T10:05:00Z",
       "products": [
         {
           "product_url": "https://www.yourshop.com/product/789",
-          "product_price": 1000000,
+          "product_price": 100000,
           "quantity": 1,
         },
         {
           "product_url": "https://www.yourshop.com/product/123",
-          "product_price": 2000000,
+          "product_price": 200000,
           "quantity": 2,
         }
       ]
@@ -169,21 +169,22 @@ If there are no new orders matching the query, return an empty `data` array.
 
 ### 3.4. Response Field Details
 
-**Note**: All timestamps must be provided in the ISO 8601 format and specified in the **UTC timezone**, indicated by a `Z` suffix (e.g., `2025-09-21T10:00:00Z`).
+- **Note**: All timestamps must be provided in the ISO 8601 format and specified in the **UTC timezone**, indicated by a `Z` suffix (e.g., `2025-09-21T10:00:00Z`).
+- **Note**: All monetary fields (`order_value`, `shipping_amount`, `products.product_price`) must be provided as integers in **Toman**.
 
-| Field                  | Type    | Description                                                                                                                                                             |
-| :--------------------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                   | Integer | **Required.** Your unique, auto-incrementing identifier for the order record.                                                                                           |
-| `click_id`             | String  | **Required.** The unique click identifier passed to you on user redirection.                                                                                            |
-| `order_value`          | Int64   | **Required.** The total value of all items in the order, excluding postage fees and taxes, but after any discounts have been applied.                                     |
-| `postage_fee`          | Int64   | **Required.** The shipping and handling cost for the order.                                                                                                             |
-| `status`               | String  | **Required.** The current status of the order. Must be one of `completed` or `cancelled`.                                                                               |
-| `purchase_timestamp`   | String  | **Required.** The ISO 8601 timestamp (UTC) of when the order was initially placed.                                                                                            |
-| `last_updated_timestamp` | String  | **Required.** The ISO 8601 timestamp (UTC) of when the order was last modified. For new orders, this can be the same as `purchase_timestamp`.         |
-| `products`             | Array   | **Required.** An array of objects, where each object represents an item in the order.                                                                                   |
-| `products.product_url` | String  | **Required.** A direct link to the product page on your website.                                                                                                         |
-| `products.price`       | Int64   | **Required.** The price of a single unit of the product.                                                                                                                |
-| `products.quantity`    | Integer | **Required.** The number of units of this product purchased.                                                                                                            |
+| Field                     | Type    | Description                                                                                                                                                             |
+| :------------------------ | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                      | Integer | **Required.** Your unique, auto-incrementing identifier for the order record.                                                                                           |
+| `click_id`                | String  | **Required.** The unique click identifier passed to you on user redirection.                                                                                            |
+| `order_value`             | Integer | **Required.** The total value of all items in the order, as an integer in Toman, excluding postage fees and taxes, but after any discounts have been applied.           |
+| `shipping_amount`         | Integer | **Required.** The shipping and handling cost for the order, as an integer in Toman.                                                                                     |
+| `status`                  | String  | **Required.** The current status of the order. Must be one of `completed` or `cancelled`.                                                                               |
+| `purchase_timestamp`      | String  | **Required.** The ISO 8601 timestamp (UTC) of when the order was initially placed.                                                                                      |
+| `last_updated_timestamp`  | String  | **Required.** The ISO 8601 timestamp (UTC) of when the order was last modified. For new orders, this can be the same as `purchase_timestamp`.                           |
+| `products`                | Array   | **Required.** An array of objects, where each object represents an item in the order.                                                                                   |
+| `products.product_url`    | String  | **Required.** A direct link to the product page on your website.                                                                                                        |
+| `products.product_price`  | Integer | **Required.** The price of a single unit of the product, as an integer in Toman.                                                                                        |
+| `products.quantity`       | Integer | **Required.** The number of units of this product purchased.                                                                                                            |
 
 ## 4. Order Cancellations & Updates
 
