@@ -14,14 +14,14 @@ sequenceDiagram
 
     %% --- Step 1 & 2: User Click and Redirection ---
     User->>Torob Platform: Clicks a product link on Torob
-    Torob Platform->>Partner Shop Website: Redirects user to shop with unique `torob_tid`
-    Note right of Torob Platform: URL: `...?torob_tid=...`
+    Torob Platform->>Partner Shop Website: Redirects user to shop with unique `torob_clid`
+    Note right of Torob Platform: URL: `...?torob_clid=...`
 
     %% --- Step 3: Session & Order Attribution ---
     activate Partner Shop Website
-    Partner Shop Website->>Partner Shop Website: Server stores `torob_tid` in session/cookie
+    Partner Shop Website->>Partner Shop Website: Server stores `torob_clid` in session/cookie
     User->>Partner Shop Website: User successfully completes checkout
-    Partner Shop Website->>Partner Shop Website: Order is saved with the stored `torob_tid`
+    Partner Shop Website->>Partner Shop Website: Order is saved with the stored `torob_clid`
     deactivate Partner Shop Website
 ```
 
@@ -58,17 +58,17 @@ sequenceDiagram
 ## 1. Introduction
 This document outlines the technical requirements for implementing an order tracking system. To enable sales attribution and other features on our platform, partner shops can implement this secure API endpoint. It is designed to provide order data for users we refer to their site.
 
-Crucially, this endpoint must only expose order information for purchases that originated from our platform (i.e., orders that have an associated `torob_tid`). This system allows for a transparent, performance-based partnership.
+Crucially, this endpoint must only expose order information for purchases that originated from our platform (i.e., orders that have an associated `torob_clid`). This system allows for a transparent, performance-based partnership.
 
 ## Workflow Overview
 The order tracking process follows these steps:
 
-1.  **User Redirection**: A user on our platform clicks a link to your website. We append a unique torob tracking id `torob_tid` as a query parameter in the URL.
-    *   **Example**: `https://www.yourshop.com/product/123?torob_tid=a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8`
+1.  **User Redirection**: A user on our platform clicks a link to your website. We append a unique torob click id `torob_clid` as a query parameter in the URL.
+    *   **Example**: `https://www.yourshop.com/product/123?torob_clid=a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8`
 
-2.  **Capture torob_tid**: Your system must capture and store this `torob_tid` and associate it with the user's session.
+2.  **Capture torob_clid**: Your system must capture and store this `torob_clid` and associate it with the user's session.
 
-3.  **Attribute Order**: When the user makes a purchase, the `torob_tid` must be saved along with the order details. Our attribution model covers the entire shopping basket for any purchase made within 7 days (168 hours) of the initial click.
+3.  **Attribute Order**: When the user makes a purchase, the `torob_clid` must be saved along with the order details. Our attribution model covers the entire shopping basket for any purchase made within 7 days (168 hours) of the initial click.
 
 4.  **Data Pull**: We will periodically call your API endpoint to retrieve new or updated order information.
 
@@ -177,7 +177,7 @@ If there are no new orders matching the query, return an empty `data` array.
 | Field                    | Type    | Required | Description |
 | ------------------------ | ------- | -------- | ----------- |
 | `purchase_timestamp`     | String  | Required | The ISO 8601 timestamp (UTC) of when the order was initially placed. |
-| `torob_tid`              | String  | Required | The unique tracking identifier passed to you on user redirection. |
+| `torob_clid`              | String  | Required | The unique tracking identifier passed to you on user redirection. |
 | `order_value`            | Integer | Required | The total value of all items in the order, as an integer in Toman, excluding postage fees and taxes, but after any discounts have been applied. |
 | `shipping_amount`        | Integer | Required | The shipping and handling cost for the order, as an integer in Toman. |
 | `status`                 | String  | Required | The current status of the order. Must be one of `completed` or `cancelled`. |
