@@ -14,14 +14,14 @@ sequenceDiagram
 
     %% --- Step 1 & 2: User Click and Redirection ---
     User->>Torob Platform: Clicks a product link on Torob
-    Torob Platform->>Partner Shop Website: Redirects user to shop with unique `TOROB_TID`
-    Note right of Torob Platform: URL: `...?TOROB_TID=...`
+    Torob Platform->>Partner Shop Website: Redirects user to shop with unique `torob_tid`
+    Note right of Torob Platform: URL: `...?torob_tid=...`
 
     %% --- Step 3: Session & Order Attribution ---
     activate Partner Shop Website
-    Partner Shop Website->>Partner Shop Website: Server stores `TOROB_TID` in session/cookie
+    Partner Shop Website->>Partner Shop Website: Server stores `torob_tid` in session/cookie
     User->>Partner Shop Website: User successfully completes checkout
-    Partner Shop Website->>Partner Shop Website: Order is saved with the stored `TOROB_TID`
+    Partner Shop Website->>Partner Shop Website: Order is saved with the stored `torob_tid`
     deactivate Partner Shop Website
 ```
 
@@ -58,17 +58,17 @@ sequenceDiagram
 ## 1. Introduction
 This document outlines the technical requirements for implementing an order tracking system. To enable sales attribution and other features on our platform, partner shops can implement this secure API endpoint. It is designed to provide order data for users we refer to their site.
 
-Crucially, this endpoint must only expose order information for purchases that originated from our platform (i.e., orders that have an associated `TOROB_TID`). This system allows for a transparent, performance-based partnership.
+Crucially, this endpoint must only expose order information for purchases that originated from our platform (i.e., orders that have an associated `torob_tid`). This system allows for a transparent, performance-based partnership.
 
 ## Workflow Overview
 The order tracking process follows these steps:
 
-1.  **User Redirection**: A user on our platform clicks a link to your website. We append a unique torob tracking id `TOROB_TID` as a query parameter in the URL.
-    *   **Example**: `https://www.yourshop.com/product/123?TOROB_TID=a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8`
+1.  **User Redirection**: A user on our platform clicks a link to your website. We append a unique torob tracking id `torob_tid` as a query parameter in the URL.
+    *   **Example**: `https://www.yourshop.com/product/123?torob_tid=a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8`
 
-2.  **Capture TOROB_TID**: Your system must capture and store this `TOROB_TID` and associate it with the user's session.
+2.  **Capture torob_tid**: Your system must capture and store this `torob_tid` and associate it with the user's session.
 
-3.  **Attribute Order**: When the user makes a purchase, the `TOROB_TID` must be saved along with the order details. Our attribution model covers the entire shopping basket for any purchase made within 7 days (168 hours) of the initial click.
+3.  **Attribute Order**: When the user makes a purchase, the `torob_tid` must be saved along with the order details. Our attribution model covers the entire shopping basket for any purchase made within 7 days (168 hours) of the initial click.
 
 4.  **Data Pull**: We will periodically call your API endpoint to retrieve new or updated order information.
 
