@@ -1,4 +1,4 @@
-# [Draft] Order Tracking API: Implementation Guide for Partner Shops
+# Order Tracking API: Implementation Guide for Partner Shops
 ## Specification for the `/torob/v1/orders` Endpoint
 
 ## 0. Diagram
@@ -76,10 +76,16 @@ The order tracking process follows these steps:
 You are required to create a secure, RESTful API endpoint that we can poll for order data. The data returned from this endpoint must be filtered to include only orders placed by users we referred to your site.
 
 ### 3.1. Endpoint & Authentication
-*   **URL**: You will need to provide us with a stable URL for your API endpoint. The path of this URL must end with `/torob/v1/orders`.
-    *   **Example Structure**: `https://api.yourshop.com/torob/v1/orders`
-*   **Method**: `GET`
-*   **Authentication**: All requests to your endpoint will be authenticated using a JSON Web Token (JWT). By validating this token, you can ensure that the request originates from Torob and prevent unauthorized access. The token is signed using the EdDSA (ed25519) algorithm.
+- **URL**: You will need to provide us with a stable URL for your API endpoint.
+  - **URL Structure**: Your endpoint must follow the structure `https://[your_api_hostname]/[optional_path]/torob/v1/orders`, which is composed of the following parts:
+    - `[your_api_hostname]`: The domain or subdomain of your API (e.g., `api.yourshop.com`).
+    - `[optional_path]`: An optional base path if your architecture requires it (e.g., `/api/integrations/`). If not needed, this can be omitted.
+    - `/torob/v1/orders`: The required path for the endpoint. The URL you provide **must** end with this path. This ensures consistency across all partner integrations.
+  - **Example URLs**:
+    - **Simple Structure**: `https://api.yourshop.com/torob/v1/orders`
+    - **Structure with Optional Path**: `https://yourshop.com/api/torob/v1/orders`
+- **Method**: `GET`
+- **Authentication**: All requests to your endpoint will be authenticated using a JSON Web Token (JWT). By validating this token, you can ensure that the request originates from Torob and prevent unauthorized access. The token is signed using the EdDSA (ed25519) algorithm.
 
 #### Torob Public Key
 You must use the following public key to validate the signature of the JWT included in each request.
