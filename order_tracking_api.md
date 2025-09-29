@@ -144,7 +144,7 @@ The response must be a JSON object with the `Content-Type` header set to `applic
   "data": [
     {
       "purchase_timestamp": "2025-09-21T10:20:30.456Z",
-      "click_id": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
+      "torob_clid": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
       "order_value": 500000,
       "shipping_amount": 90000,
       "status": "completed",
