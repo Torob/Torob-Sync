@@ -132,7 +132,7 @@ We will poll your endpoint for new or updated records since our last request. Yo
 | `purchase_timestamp_gt` | String  | Yes      | "Greater Than". Returns all orders from your platform with a purchase_timestamp greater than the specified value. The value must be in ISO 8061 format (UTC). |
 | `limit`                 | Integer | Yes      | The maximum number of records to return. The value must be greater than 0 and less than or equal to 1000. |
 
-**Example Request**: `GET https://api.yourshop.com/torob/v1/orders?purchase_timestamp_gt=2025-09-21T10:00:00.000Z&limit=1000`
+**Example Request**: `GET https://api.yourshop.com/torob/v1/orders?purchase_timestamp_gt=2025-09-21T10:00:00.000000Z&limit=1000`
 
 ### 3.3. Response Format
 The response must be a JSON object with the `Content-Type` header set to `application/json`. The records must be sorted in ascending order by their `purchase_timestamp`.
@@ -143,12 +143,12 @@ The response must be a JSON object with the `Content-Type` header set to `applic
   "success": true,
   "data": [
     {
-      "purchase_timestamp": "2025-09-21T10:20:30.456Z",
+      "purchase_timestamp": "2025-09-21T10:20:30.456789Z",
       "torob_clid": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
       "order_value": 500000,
       "shipping_amount": 90000,
       "status": "completed",
-      "last_updated_timestamp": "2025-09-21T10:20:30.456Z",
+      "last_updated_timestamp": "2025-09-21T10:20:30.456789Z",
       "products": [
         {
           "product_url": "https://www.yourshop.com/product/789",
@@ -176,7 +176,7 @@ If there are no new orders matching the query, return an empty `data` array.
 ```
 
 ### 3.4. Response Field Details
-> **Note**: All timestamps must be provided in the ISO 8601 format and specified in the UTC timezone, indicated by a `Z` suffix (e.g., `2025-09-21T10:20:30.456Z`).
+> **Note**: All timestamps must be provided in the ISO 8601 format and specified in the UTC timezone, indicated by a `Z` suffix (e.g., `2025-09-21T10:20:30.456789Z`).
 
 > **Note**: All monetary fields (`order_value`, `shipping_amount`, `products.product_price`) must be provided as integers in Toman.
 
