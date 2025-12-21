@@ -149,6 +149,7 @@ The response must be a JSON object with the `Content-Type` header set to `applic
       "shipping_amount": 90000,
       "status": "completed",
       "last_updated_timestamp": "2025-09-21T10:20:30.456789Z",
+      "phone_number": "+989123456789",
       "products": [
         {
           "product_url": "https://www.yourshop.com/product/789",
@@ -188,6 +189,7 @@ If there are no new orders matching the query, return an empty `data` array.
 | `shipping_amount`        | Integer | Required | The shipping and handling cost for the order, as an integer in Toman. |
 | `status`                 | String  | Required | The current status of the order. Must be one of `completed` or `cancelled`. |
 | `last_updated_timestamp` | String  | Required | The ISO 8601 timestamp (UTC) of when the order was last modified. For new orders, this can be the same as `purchase_timestamp`. |
+| `phone_number`           | String  | Required | User's phone number. |
 | `products`               | Array   | Required | An array of objects, where each object represents an item in the order. |
 | `products.product_url`   | String  | Required | A direct link to the product page on your website. |
 | `products.product_price` | Integer | Required | The price of a single unit of the product, as an integer in Toman. |
