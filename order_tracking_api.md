@@ -245,7 +245,7 @@ func verify(token string, parser *jwt.Parser, key crypto.PublicKey) (*jwt.Token,
 
 func main() {
 	publicKey := []byte(`-----BEGIN PUBLIC KEY-----
-MCowBQYDK2VwAyEApRa/occuX1AyPs7Hl21jiWuDzr7vl6jgipR3RSDChMw=
+MCowBQYDK2VwAyEAt6Mu4T0pBORY11W+QeM35UsmLO3vsf+6yKpFDEImFk0=
 -----END PUBLIC KEY-----`)
 	publicKeyPem, err := jwt.ParseEdPublicKeyFromPEM(publicKey)
 	if err != nil {
@@ -276,7 +276,7 @@ public class JwtVerifier {
     private final JwtParser parser;
 
     public JwtVerifier() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        final var publicKeyString = "MCowBQYDK2VwAyEA17m5ndg5lFvtbyxxzWgA4up1NCBCFeGbUCbQY3vhe2M=";
+        final var publicKeyString = "MCowBQYDK2VwAyEAt6Mu4T0pBORY11W+QeM35UsmLO3vsf+6yKpFDEImFk0=";
         KeySpec keySpec = new X509EncodedKeySpec(Decoders.BASE64.decode(publicKeyString));
         PublicKey publicKey = KeyFactory.getInstance("EdDSA").generatePublic(keySpec);
         // aud and exp fields are checked by library.
@@ -295,7 +295,7 @@ This example uses the `firebase/php-jwt` library.
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-define('TOROB_PUBLIC_KEY','MCowBQYDK2VwAyEAWBtp4vMYs8HAyyDY92z7FKYcH43Qjczz3ZMg1cxVRjc=');
+define('TOROB_PUBLIC_KEY','MCowBQYDK2VwAyEAt6Mu4T0pBORY11W+QeM35UsmLO3vsf+6yKpFDEImFk0=');
 define('TOROB_PUBLIC_KEY_SEED',base64_encode(substr(base64_decode(TOROB_PUBLIC_KEY), -32)));
 
 function verify($jwt): object {
